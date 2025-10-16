@@ -49,7 +49,7 @@ app.get('/profile', async (req, res) => {
 
 // ----- DARK DATA -----
 
-
+//Vérifie la validité d'un IBAN français
 app.get('/darkdata/iban_valid', async (req, res) => {
   const data = await getPipeline();
   const iban = typeof data.iban === "string" ? data.iban : (Array.isArray(data.iban) ? data.iban[0] : "");
@@ -57,14 +57,14 @@ app.get('/darkdata/iban_valid', async (req, res) => {
   res.json({ iban, valid });
 });
 
-
+//Extrait le domaine de l'email
 app.get('/darkdata/email_domain', async (req, res) => {
   const data = await getPipeline();
   const domain = data.utilisateur.email.split("@")[1];
   res.json({ email: data.utilisateur.email, domaine: domain });
 });
 
-
+//Répartition géographique simplifiée
 app.get('/darkdata/deeplocation', async (req, res) => {
   const data = await getPipeline();
   const location = data.utilisateur.pays;
@@ -73,7 +73,7 @@ app.get('/darkdata/deeplocation', async (req, res) => {
   res.json({ pays: location, zone });
 });
 
-
+//Compte le nombre de mots dans la blague
 app.get('/darkdata/joke_length', async (req, res) => {
   const data = await getPipeline();
   const count = (data.blague.match(/\w+/g) || []).length;
